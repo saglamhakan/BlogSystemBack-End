@@ -2,9 +2,11 @@ package patikaOdev.BlogSystem.dto.requests;
 
 import lombok.Data;
 
-import java.util.Date;
+
 @Data
 public class AddPostRequest {
+
+    private Long categoryId;
 
     private Long userId;
 

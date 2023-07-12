@@ -35,9 +35,7 @@ public class CommentService {
                 .map(this::convertCommentToGetAllCommentDto)
                 .collect(Collectors.toList());
 
-        if (CollectionUtils.isEmpty(dtos)) {
-            throw new BusinessException("Empty list");
-        }
+
             response.setGetAllCommentDto(dtos);
             response.setResultCode("1");
             response.setResultDescription("Success");
@@ -48,6 +46,7 @@ public class CommentService {
 
     public Comment saveOneComment(AddCommentRequest newComment) {
         Comment comment = this.modelMapperService.forRequest().map(newComment, Comment.class);
+        comment.setCreationDate(new Date());
         return commentRepository.save(comment);
     }
 
@@ -58,7 +57,7 @@ public class CommentService {
     public Comment updateOneComment(Long commentId, UpdateCommentRequest updateCommentRequest) {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if (Objects.nonNull(comment)) {
-            comment.setComment(updateCommentRequest.getComments());
+            comment.setComment(updateCommentRequest.getComment());
             comment.setIsConfirmed(updateCommentRequest.getIsConfirmed());
 
             commentRepository.save(comment);
@@ -74,8 +73,8 @@ public class CommentService {
         getAllCommentDto.setUserId(comment.getUser().getUserId());
         getAllCommentDto.setPostId(comment.getPost().getPostId());
         getAllCommentDto.setCommentId(comment.getCommentId());
-        getAllCommentDto.setComments(comment.getComment());
-        getAllCommentDto.setCreationDate(new Date());
+        getAllCommentDto.setComment(comment.getComment());
+        getAllCommentDto.setCreationDate(comment.getCreationDate());
         getAllCommentDto.setIsConfirmed(comment.getIsConfirmed());
 
         return getAllCommentDto;

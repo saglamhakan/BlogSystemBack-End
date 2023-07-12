@@ -23,7 +23,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final CommentService commentService;
     private final PostService postService;
-
     private final ModelMapperService modelMapperService;
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
@@ -47,9 +46,7 @@ public class UserService {
                 .map(this::convertUserToGetAllUsersDto)
                 .collect(Collectors.toList());
 
-        if (CollectionUtils.isEmpty(dtos)) {
-            throw new BusinessException("Empty list");
-        }
+
 
         response.setGetAllUsersDto(dtos);
         response.setResultCode("1");
@@ -57,22 +54,26 @@ public class UserService {
 
         return response;
 
-
     }
-
 
     public User saveOneUser(AddUserRequest newUser) {
         User user = this.modelMapperService.forRequest().map(newUser, User.class);
-
+        user.setCreationDate(new Date());
         return userRepository.save(user);
     }
 
     public void deleteOneUserById(Long userId) {
-        Comment comment = commentRepository.findById(userId).orElse(null);
-        Post post = postRepository.findById(userId).orElse(null);
-        if (Objects.nonNull(comment) || Objects.nonNull(post)) {
-            throw new BusinessException("hhh");
+        Integer userCount = userRepository.countUser();
+        if (userCount <= 1) {
+            throw new BusinessException("User cannot be deleted there most be add list one User.");
         }
+        List<Comment> comments = commentRepository.findByUser_UserId(userId);
+        Post post = postRepository.findByUser_UserId(userId);
+        if (!CollectionUtils.isEmpty(comments) || Objects.nonNull(post)) {
+            throw new BusinessException("User cannot be deleted while the user has posts and comments.");
+        }
+
+
         this.userRepository.deleteById(userId);
     }
 
@@ -94,9 +95,11 @@ public class UserService {
         getAllUsersDto.setUserId(user.getUserId());
         getAllUsersDto.setUserName(user.getUserName());
         getAllUsersDto.setEmail(user.getEmail());
-        getAllUsersDto.setCreationDate(new Date());
+        getAllUsersDto.setCreationDate(user.getCreationDate());
 
         return getAllUsersDto;
 
     }
+
+
 }

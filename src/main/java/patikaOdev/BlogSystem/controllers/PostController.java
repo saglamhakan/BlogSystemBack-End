@@ -13,7 +13,8 @@ import patikaOdev.BlogSystem.service.PostService;
 import java.util.List;
 
 @RestController
-@RequestMapping("posts")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;

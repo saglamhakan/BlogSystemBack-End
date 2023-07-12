@@ -41,9 +41,7 @@ public class CategoryService {
                 .map(this::convertCategoryGetAllCategoryDto)
                 .collect(Collectors.toList());
 
-        if (CollectionUtils.isEmpty(dtos)) {
-            throw new BusinessException("Empty list");
-        }
+
             response.setGetAllCategoryDto(dtos);
             response.setResultCode("1");
             response.setResultDescription("Success");
@@ -53,6 +51,7 @@ public class CategoryService {
 
     public Category saveOneCategory(AddCategoryRequest newCategory) {
         Category category = modelMapperService.forRequest().map(newCategory, Category.class);
+        category.setCreationDate(new Date());
         return categoryRepository.save(category);
     }
 
@@ -77,7 +76,7 @@ public class CategoryService {
         GetAllCategoryDto getAllCategoryDto = new GetAllCategoryDto();
         getAllCategoryDto.setCategoryId(category.getCategoryId());
         getAllCategoryDto.setCategoryName(category.getCategoryName());
-        getAllCategoryDto.setCreationDate(new Date());
+        getAllCategoryDto.setCreationDate(category.getCreationDate());
 
         return getAllCategoryDto;
     }

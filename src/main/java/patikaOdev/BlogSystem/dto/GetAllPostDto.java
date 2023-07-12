@@ -6,6 +6,9 @@ import java.util.Date;
 
 @Data
 public class GetAllPostDto {
+
+    private Long categoryId;
+
     private Long postId;
     private Long userId;
 

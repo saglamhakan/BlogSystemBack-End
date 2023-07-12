@@ -23,9 +23,11 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     private boolean isActive = true;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Comment> comments;
+
+
 }

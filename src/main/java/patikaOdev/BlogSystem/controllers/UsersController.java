@@ -10,7 +10,8 @@ import patikaOdev.BlogSystem.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/users")
 public class UsersController {
     private final UserService userService;
 
@@ -38,4 +39,6 @@ public class UsersController {
         return userService.updateOneUser(userId, updateUserRequest);
 
     }
+
+
 }

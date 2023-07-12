@@ -6,5 +6,5 @@ import lombok.Data;
 public class UpdateUserRequest {
     private String userName;
     private String email;
-    private boolean isActive = true;
+    private Boolean isActive;
 }

@@ -11,7 +11,8 @@ import patikaOdev.BlogSystem.service.CommentService;
 import java.util.List;
 
 @RestController
-@RequestMapping("comments")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/comments")
 public class CommentController {
     private final CommentService commentService;
 

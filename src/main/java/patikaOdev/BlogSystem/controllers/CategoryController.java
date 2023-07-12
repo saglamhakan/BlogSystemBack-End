@@ -11,7 +11,8 @@ import patikaOdev.BlogSystem.service.CategoryService;
 import java.util.List;
 
 @RestController
-@RequestMapping("categories")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/categories")
 public class CategoryController {
     private final CategoryService categoryService;
 

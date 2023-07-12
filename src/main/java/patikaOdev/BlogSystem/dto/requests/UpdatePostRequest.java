@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UpdatePostRequest {
     private Long userId;
-    private Long CommentId;
+    private Long commentId;
     private String title;
     private String content;
     private Long viewCount;
