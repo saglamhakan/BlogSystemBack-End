@@ -77,18 +77,12 @@ public class UserService {
         this.userRepository.deleteById(userId);
     }
 
-    public User updateOneUser(Long userId, UpdateUserRequest updateUserRequest) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (Objects.nonNull(user)) {
-            user.setUserName(updateUserRequest.getUserName());
-            user.setEmail(updateUserRequest.getEmail());
-            userRepository.save(user);
-            return user;
+    public void updateOneUser(UpdateUserRequest updateUserRequest) {
+       User user = this.modelMapperService.forRequest().map(updateUserRequest, User.class);
+       this.userRepository.save(user);
+
         }
 
-        throw new BusinessException("User could not found");
-
-    }
 
     private GetAllUsersDto convertUserToGetAllUsersDto(User user) {
         GetAllUsersDto getAllUsersDto = new GetAllUsersDto();

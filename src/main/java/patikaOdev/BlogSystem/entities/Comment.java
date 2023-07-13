@@ -20,6 +20,7 @@ public class Comment {
     private Long commentId;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id", nullable = false)
+    @JsonIgnore
     private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -33,4 +34,14 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     private Boolean isConfirmed;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", comment='" + comment + '\'' +
+                ", creationDate=" + creationDate +
+                ", isConfirmed=" + isConfirmed +
+                '}';
+    }
 }

@@ -12,6 +12,7 @@ import patikaOdev.BlogSystem.dto.responses.GetAllCategoryResponse;
 import patikaOdev.BlogSystem.dto.responses.GetAllCommentResponse;
 import patikaOdev.BlogSystem.entities.Category;
 import patikaOdev.BlogSystem.entities.Comment;
+import patikaOdev.BlogSystem.entities.Post;
 import patikaOdev.BlogSystem.exception.BusinessException;
 import patikaOdev.BlogSystem.mapper.ModelMapperService;
 
@@ -59,18 +60,14 @@ public class CategoryService {
         this.categoryRepository.deleteById(categoryId);
     }
 
-    public Category updateOneCategory(Long categoryId, UpdateCategoryRequest updateCategoryRequest) {
-        Category category = categoryRepository.findById(categoryId).orElse(null);
-        if (Objects.nonNull(category)) {
-            category.setCategoryName(updateCategoryRequest.getCategoryName());
-
-            categoryRepository.save(category);
-            return category;
+    public void updateOneCategory(UpdateCategoryRequest updateCategoryRequest) {
+        Category category = this.categoryRepository.findById(updateCategoryRequest.getCategoryId()).orElseThrow(() ->new BusinessException("Category can not found"));
+        Category categoryToUpdate = this.modelMapperService.forRequest().map(updateCategoryRequest, Category.class);
+        categoryToUpdate.setCreationDate(category.getCreationDate());
+       this.categoryRepository.save(category);
         }
 
-        throw new BusinessException("Category could not found");
 
-    }
 
     private GetAllCategoryDto convertCategoryGetAllCategoryDto(Category category) {
         GetAllCategoryDto getAllCategoryDto = new GetAllCategoryDto();

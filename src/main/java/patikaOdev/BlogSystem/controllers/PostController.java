@@ -1,6 +1,7 @@
 package patikaOdev.BlogSystem.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import patikaOdev.BlogSystem.dto.GetPostByIdDto;
 import patikaOdev.BlogSystem.dto.requests.AddPostRequest;
 import patikaOdev.BlogSystem.dto.requests.AddUserRequest;
 import patikaOdev.BlogSystem.dto.requests.UpdatePostRequest;
@@ -28,18 +29,24 @@ public class PostController {
         return postService.getAllPosts();
     }
 
+    @GetMapping("/getById/{postId}")
+    public GetPostByIdDto getById(@PathVariable Long postId) {
+        return postService.getPostById(postId);
+    }
+
     @PostMapping("/add")
     public Post createOnePost(@RequestBody AddPostRequest newPost) {
         return postService.saveOnePost(newPost);
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/delete/{postId}")
     public void deleteOnePost(@PathVariable Long postId) {
         this.postService.deleteOnePostById(postId);
     }
-    @PutMapping("{postId}")
-    public Post updateOnePost(@PathVariable  Long postId, @RequestBody UpdatePostRequest updatePostRequest){
-        return postService.updateOnePost(postId, updatePostRequest);
+    @PutMapping("/update")
+    public void updateOnePost( @RequestBody UpdatePostRequest updatePostRequest){
+         postService.updateOnePost(updatePostRequest);
 
     }
+
 }

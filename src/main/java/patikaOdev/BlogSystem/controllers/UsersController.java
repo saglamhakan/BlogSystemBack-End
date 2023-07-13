@@ -34,9 +34,9 @@ public class UsersController {
         this.userService.deleteOneUserById(userId);
     }
 
-    @PutMapping("{userId}")
-    public User updateOneUser(@PathVariable  Long userId, @RequestBody UpdateUserRequest updateUserRequest){
-        return userService.updateOneUser(userId, updateUserRequest);
+    @PutMapping("/update")
+    public void updateOneUser(@RequestBody UpdateUserRequest updateUserRequest){
+         userService.updateOneUser(updateUserRequest);
 
     }
 

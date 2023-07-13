@@ -28,6 +28,7 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @JsonIgnore
     List<Comment> comments;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -39,4 +40,16 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     private Boolean isPublished;
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "postId=" + postId +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", viewCount=" + viewCount +
+                ", creationDate=" + creationDate +
+                ", isPublished=" + isPublished +
+                '}';
+    }
 }

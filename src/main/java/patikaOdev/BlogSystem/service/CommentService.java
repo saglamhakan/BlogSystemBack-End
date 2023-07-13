@@ -7,6 +7,7 @@ import patikaOdev.BlogSystem.dto.GetAllCommentDto;
 import patikaOdev.BlogSystem.dto.requests.AddCommentRequest;
 import patikaOdev.BlogSystem.dto.requests.UpdateCommentRequest;
 import patikaOdev.BlogSystem.dto.responses.GetAllCommentResponse;
+import patikaOdev.BlogSystem.entities.Category;
 import patikaOdev.BlogSystem.entities.Comment;
 import patikaOdev.BlogSystem.exception.BusinessException;
 import patikaOdev.BlogSystem.mapper.ModelMapperService;
@@ -54,19 +55,15 @@ public class CommentService {
         this.commentRepository.deleteById(commentId);
     }
 
-    public Comment updateOneComment(Long commentId, UpdateCommentRequest updateCommentRequest) {
-        Comment comment = commentRepository.findById(commentId).orElse(null);
-        if (Objects.nonNull(comment)) {
-            comment.setComment(updateCommentRequest.getComment());
-            comment.setIsConfirmed(updateCommentRequest.getIsConfirmed());
-
-            commentRepository.save(comment);
-            return comment;
+    public void updateOneComment( UpdateCommentRequest updateCommentRequest) {
+        Comment comment = this.commentRepository.findById(updateCommentRequest.getCommentId()).orElseThrow(() ->new BusinessException("Comment can not found"));
+        Comment commentToUpdate = this.modelMapperService.forRequest().map(updateCommentRequest, Comment.class);
+        commentToUpdate.setCreationDate(comment.getCreationDate());
+        this.commentRepository.save(comment);
         }
 
-        throw new BusinessException("Comment could not found");
 
-    }
+
 
     private GetAllCommentDto convertCommentToGetAllCommentDto(Comment comment) {
         GetAllCommentDto getAllCommentDto = new GetAllCommentDto();

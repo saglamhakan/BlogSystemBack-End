@@ -8,6 +8,7 @@ import patikaOdev.BlogSystem.dataAccess.PostRepository;
 import patikaOdev.BlogSystem.dataAccess.UserRepository;
 import patikaOdev.BlogSystem.dto.GetAllPostDto;
 
+import patikaOdev.BlogSystem.dto.GetPostByIdDto;
 import patikaOdev.BlogSystem.dto.requests.AddPostRequest;
 import patikaOdev.BlogSystem.dto.requests.UpdatePostRequest;
 import patikaOdev.BlogSystem.dto.responses.GetAllPostResponse;
@@ -31,7 +32,6 @@ public class PostService {
     private final ModelMapperService modelMapperService;
 
     private final CommentRepository commentRepository;
-
 
 
     public PostService(PostRepository postRepository, ModelMapperService modelMapperService,
@@ -70,20 +70,21 @@ public class PostService {
         this.postRepository.deleteById(postId);
     }
 
-    public Post updateOnePost(Long postId, UpdatePostRequest updatePostRequest) {
-        Post post = postRepository.findById(postId).orElse(null);
-        if (Objects.nonNull(post)) {
-            post.setContent(updatePostRequest.getContent());
-            post.setTitle(updatePostRequest.getTitle());
-            post.setViewCount(updatePostRequest.getViewCount());
-            post.setIsPublished(updatePostRequest.getIsPublished());
-            postRepository.save(post);
-            return post;
-        }
+    public void updateOnePost( UpdatePostRequest updatePostRequest) {
+        Post post = this.postRepository.findById(updatePostRequest.getPostId()).orElseThrow(() ->new BusinessException("Post can not found"));
+        Post postToUpdate = this.modelMapperService.forRequest().map(updatePostRequest, Post.class);
+        postToUpdate.setCreationDate(post.getCreationDate());
+        this.postRepository.save(postToUpdate);
+    }
 
-        throw new BusinessException("Post could not found");
+    public GetPostByIdDto getPostById(Long postId) {
+        Post post = this.postRepository.findById(postId).orElseThrow(()-> new BusinessException("Post not found :" + postId));
+        GetPostByIdDto getPostByIdDto = convertPostToGetPostByIdDto(post);
+        return getPostByIdDto;
 
     }
+
+
 
     private GetAllPostDto convertPostToGetAllPostsDto(Post post) {
         GetAllPostDto getAllPostsDto = new GetAllPostDto();
@@ -97,5 +98,18 @@ public class PostService {
         getAllPostsDto.setCreationDate(post.getCreationDate());
         return getAllPostsDto;
 
+    }
+
+    private GetPostByIdDto convertPostToGetPostByIdDto(Post post) {
+        GetPostByIdDto dto = new GetPostByIdDto();
+
+        dto.setUserId(post.getUser().getUserId());
+        dto.setCategoryId(post.getCategory().getCategoryId());
+        dto.setViewCount(post.getViewCount());
+        dto.setIsPublished(post.getIsPublished());
+        dto.setContent(post.getContent());
+        dto.setTitle(post.getTitle());
+
+        return dto;
     }
 }

@@ -1,11 +1,13 @@
-package patikaOdev.BlogSystem.dto.requests;
+package patikaOdev.BlogSystem.dto;
+
 
 import lombok.Data;
 
 @Data
-public class UpdatePostRequest {
-    private Long postId;
+public class GetPostByIdDto {
+
     private Long userId;
+
     private Long categoryId;
     private String title;
     private String content;
