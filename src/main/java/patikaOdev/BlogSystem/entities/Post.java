@@ -22,6 +22,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long postId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @JsonIgnore
@@ -30,7 +31,7 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     @JsonIgnore
     List<Comment> comments;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;

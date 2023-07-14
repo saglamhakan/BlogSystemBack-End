@@ -64,7 +64,7 @@ public class CategoryService {
         Category category = this.categoryRepository.findById(updateCategoryRequest.getCategoryId()).orElseThrow(() ->new BusinessException("Category can not found"));
         Category categoryToUpdate = this.modelMapperService.forRequest().map(updateCategoryRequest, Category.class);
         categoryToUpdate.setCreationDate(category.getCreationDate());
-       this.categoryRepository.save(category);
+       this.categoryRepository.save(categoryToUpdate);
         }
 
 

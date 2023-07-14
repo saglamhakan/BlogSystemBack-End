@@ -29,7 +29,7 @@ public class UsersController {
         return userService.saveOneUser(newUser);
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public void deleteOneUser(@PathVariable Long userId) {
         this.userService.deleteOneUserById(userId);
     }

@@ -47,7 +47,6 @@ public class UserService {
                 .collect(Collectors.toList());
 
 
-
         response.setGetAllUsersDto(dtos);
         response.setResultCode("1");
         response.setResultDescription("Success");
@@ -78,10 +77,12 @@ public class UserService {
     }
 
     public void updateOneUser(UpdateUserRequest updateUserRequest) {
-       User user = this.modelMapperService.forRequest().map(updateUserRequest, User.class);
-       this.userRepository.save(user);
+        User user = this.userRepository.findById(updateUserRequest.getUserId()).orElseThrow(() -> new BusinessException("User can not found"));
+        User userToUpdate = this.modelMapperService.forRequest().map(updateUserRequest, User.class);
+        userToUpdate.setCreationDate(user.getCreationDate());
+        this.userRepository.save(userToUpdate);
 
-        }
+    }
 
 
     private GetAllUsersDto convertUserToGetAllUsersDto(User user) {

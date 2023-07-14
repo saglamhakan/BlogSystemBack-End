@@ -30,12 +30,12 @@ public class CategoryController {
         return categoryService.saveOneCategory(newCategory);
     }
 
-    @DeleteMapping("/{categoryId}")
+    @DeleteMapping("/delete/{categoryId}")
     public void deleteOneCategory(@PathVariable Long categoryId) {
         this.categoryService.deleteOneCategoryById(categoryId);
     }
     @PutMapping("/update")
-    public void updateOneUser(@RequestBody UpdateCategoryRequest updateCategoryRequest){
+    public void updateOneCategory(@RequestBody UpdateCategoryRequest updateCategoryRequest){
          categoryService.updateOneCategory(updateCategoryRequest);
 
     }

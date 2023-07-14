@@ -59,7 +59,7 @@ public class CommentService {
         Comment comment = this.commentRepository.findById(updateCommentRequest.getCommentId()).orElseThrow(() ->new BusinessException("Comment can not found"));
         Comment commentToUpdate = this.modelMapperService.forRequest().map(updateCommentRequest, Comment.class);
         commentToUpdate.setCreationDate(comment.getCreationDate());
-        this.commentRepository.save(comment);
+        this.commentRepository.save(commentToUpdate);
         }
 
 
