@@ -11,5 +11,5 @@ public class GetAllUsersDto {
     private String userName;
     private String email;
     private Date creationDate;
-    private boolean isActive = true;
+    private Boolean isActive = true;
 }

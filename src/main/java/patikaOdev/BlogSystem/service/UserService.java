@@ -21,18 +21,14 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final CommentService commentService;
-    private final PostService postService;
     private final ModelMapperService modelMapperService;
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
-    public UserService(UserRepository userRepository, CommentService commentService, PostService postService, ModelMapperService modelMapperService,
+    public UserService(UserRepository userRepository, ModelMapperService modelMapperService,
                        CommentRepository commentRepository,
                        PostRepository postRepository) {
         this.userRepository = userRepository;
-        this.commentService = commentService;
-        this.postService = postService;
         this.modelMapperService = modelMapperService;
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
@@ -91,6 +87,7 @@ public class UserService {
         getAllUsersDto.setUserName(user.getUserName());
         getAllUsersDto.setEmail(user.getEmail());
         getAllUsersDto.setCreationDate(user.getCreationDate());
+        getAllUsersDto.setIsActive(user.getIsActive());
 
         return getAllUsersDto;
 

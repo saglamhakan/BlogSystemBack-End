@@ -23,7 +23,7 @@ public class User {
     private String email;
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    private boolean isActive = true;
+    private Boolean isActive = true;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Post> posts;
